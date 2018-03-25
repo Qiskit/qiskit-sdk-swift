@@ -13,6 +13,16 @@
 // limitations under the License.
 // =============================================================================
 
+#if os(OSX) || os(iOS)
+
+    import Accelerate
+
+#elseif os(Linux)
+
+    import CLapacke_Linux
+
+#endif
+
 import Foundation
 
 public struct Matrix<T: NumericType> : Hashable, CustomStringConvertible, ExpressibleByArrayLiteral {
@@ -433,6 +443,10 @@ extension Matrix where T == Complex {
         self.init(value: value)
     }
 
+    public var isHermitian: Bool {
+        return (self == transpose().conjugate())
+    }
+
     public func conjugate() -> Matrix {
         var m = Matrix<T>(repeating: 0, rows: self.rowCount, cols: self.colCount)
         for row in 0..<m.rowCount {
@@ -441,6 +455,74 @@ extension Matrix where T == Complex {
             }
         }
         return m
+    }
+
+    public func eigh() throws -> (Vector<Double>, Matrix<Complex>) {
+        guard isHermitian else {
+            throw ArrayError.matrixIsNotHermitian
+        }
+
+        var jobz = Int8(86) // V: Compute eigenvalues and eigenvectors
+        var uplo = Int8(76) // L: Lower triangular part
+
+        var n = Int32(rowCount)
+        var lda = Int32(rowCount)
+        var info = Int32()
+
+        var w = Array(repeating: Double(), count: rowCount)
+
+        #if os(OSX) || os(iOS)
+
+            var a = flattenCol().map { __CLPK_doublecomplex(r: $0.real, i: $0.imag) }
+
+            // Get optimal workspace
+            var tmpWork = __CLPK_doublecomplex()
+            var lengthTmpWork = Int32(-1)
+            var tmpRWork = Double()
+            var lengthTmpRWork = Int32(-1)
+            var tmpIWork = Int32()
+            var lengthTmpIWork = Int32(-1)
+
+            zheevd_(&jobz, &uplo, &n, &a, &lda, &w, &tmpWork, &lengthTmpWork, &tmpRWork, &lengthTmpRWork, &tmpIWork, &lengthTmpIWork, &info)
+
+            // Compute eigenvalues & eigenvectors
+            var lengthWork = Int32(tmpWork.r)
+            var work = Array(repeating: __CLPK_doublecomplex(), count: Int(lengthWork))
+            var lengthRWork = Int32(tmpRWork)
+            var rWork = Array(repeating: Double(), count: Int(lengthRWork))
+            var lengthIWork = tmpIWork
+            var iWork = Array(repeating: Int32(), count: Int(lengthIWork))
+
+            zheevd_(&jobz, &uplo, &n, &a, &lda, &w, &work, &lengthWork, &rWork, &lengthRWork, &iWork, &lengthIWork, &info)
+
+        #elseif os(Linux)
+
+            var a = flattenCol().value
+            let aPointer =  UnsafeMutablePointer(mutating: a)
+            let aOpaquePointer = OpaquePointer(aPointer)
+
+            info = LAPACKE_zheevd(LAPACK_COL_MAJOR, jobz, uplo, n, aOpaquePointer, lda, &w)
+
+        #endif
+
+        // Validate results
+        if (info > 0) {
+            throw ArrayError.unableToComputeEigenValues
+        }
+
+        #if os(OSX) || os(iOS)
+
+            let aComplex = MultiDArray<Complex>(value: a.map { Complex($0.r, $0.i) })
+
+        #elseif os(Linux)
+
+            let aComplex = MultiDArray<Complex>(value: a)
+
+        #endif
+
+        let vectorsStoredByCol = try aComplex.reshape([rowCount, rowCount]).value as! [[Complex]]
+
+        return (Vector(value: w), Matrix(value: vectorsStoredByCol).transpose())
     }
 
     public func sqrt() -> Matrix {

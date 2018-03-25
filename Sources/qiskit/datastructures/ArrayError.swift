@@ -35,6 +35,8 @@ public enum ArrayError: LocalizedError, CustomStringConvertible {
     case errorAxis(axis1: Int, axis2: Int)
     case errorAxisForShape(axis1: Int, axis2: Int, shape: [Int])
     case differentSizes(count1: Int, count2: Int)
+    case matrixIsNotHermitian
+    case unableToComputeEigenValues
 
     public var errorDescription: String? {
         return self.description
@@ -71,6 +73,10 @@ public enum ArrayError: LocalizedError, CustomStringConvertible {
             return "Invalid axis \(axis1),\(axis2) for shape \(shape.description)"
         case .differentSizes(let count1, let count2):
             return "Vectors have different sizes: (\(count1),\(count2))"
+        case .matrixIsNotHermitian:
+            return "Matrix is not hermitian"
+        case .unableToComputeEigenValues:
+            return "Unable to compute eigen values for this matrix"
         }
     }
 }
