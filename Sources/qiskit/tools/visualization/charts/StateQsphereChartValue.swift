@@ -13,8 +13,6 @@
 // limitations under the License.
 // =============================================================================
 
-#if os(OSX) || os(iOS)
-
 // MARK: - Main body
 
 struct StateQsphereChartValue {
@@ -84,5 +82,3 @@ struct StateQsphereChartValue {
         return rgba
     }
 }
-
-#endif

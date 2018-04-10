@@ -13,8 +13,6 @@
 // limitations under the License.
 // =============================================================================
 
-#if os(OSX) || os(iOS)
-
 import Foundation
 
 // MARK: - Public types
@@ -44,7 +42,7 @@ public func plot_histogram(_ counts: [String : Int],
                                             values: probabilities,
                                             configuration: configuration)
 
-    return AppleWebViewFactory.makeWebView(size: size, html: html)
+    return WebViewFactory.makeWebView(size: size, html: html)
 }
 
 public func plot_state(_ rho: Matrix<Complex>,
@@ -81,7 +79,7 @@ private func plot_state_city(_ rho: Matrix<Complex>,
                                                   realValues: realValues,
                                                   imagValues: imagValues)
 
-    return AppleWebViewFactory.makeWebView(size: size, html: html)
+    return WebViewFactory.makeWebView(size: size, html: html)
 }
 
 private func plot_state_paulivec(_ rho: Matrix<Complex>,
@@ -108,7 +106,7 @@ private func plot_state_paulivec(_ rho: Matrix<Complex>,
                                             values: values,
                                             configuration: configuration)
 
-    return AppleWebViewFactory.makeWebView(size: size, html: html)
+    return WebViewFactory.makeWebView(size: size, html: html)
 }
 
 private func pauli_group(_ numberofqubits: Int) -> [Pauli] {
@@ -146,7 +144,7 @@ private func plot_state_bloch(_ rho: Matrix<Complex>,
 
     let html = StateBlochChartHtmlFactory.makeHtml(blochStates: bloch_states)
 
-    return AppleWebViewFactory.makeWebView(size: size, html: html)
+    return WebViewFactory.makeWebView(size: size, html: html)
 }
 
 private func plot_state_qsphere(_ rho: Matrix<Complex>,
@@ -176,7 +174,7 @@ private func plot_state_qsphere(_ rho: Matrix<Complex>,
 
     let html = StateQsphereChartHtmlFactory.makeHtml(numberOfBits: numberOfBits, series: series)
 
-    return AppleWebViewFactory.makeWebView(size: size, html: html)
+    return WebViewFactory.makeWebView(size: size, html: html)
 }
 
 private func matrix_eigh(_ rho: Matrix<Complex>) -> (Vector<Double>, [Vector<Complex>]) {
@@ -278,5 +276,3 @@ private func phase_to_color_wheel(_ complex: Complex) -> StateQsphereChartValue.
 
     return StateQsphereChartValue.Color(rawValue: angle_round)!
 }
-
-#endif

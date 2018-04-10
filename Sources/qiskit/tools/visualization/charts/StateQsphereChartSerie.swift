@@ -13,8 +13,6 @@
 // limitations under the License.
 // =============================================================================
 
-#if os(OSX) || os(iOS)
-
 // MARK: - Main body
 
 struct StateQsphereChartSerie {
@@ -24,5 +22,3 @@ struct StateQsphereChartSerie {
     let probMix: Double
     let values: [StateQsphereChartValue]
 }
-
-#endif
