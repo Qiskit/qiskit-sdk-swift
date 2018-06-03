@@ -21,8 +21,6 @@ import qiskit
  */
 public final class Teleport {
 
-    private static let backend: String = "ibmqx_qasm_simulator"
-
     private static let QPS_SPECS: [String: Any] = [
             "name": "Program",
             "circuits": [[
@@ -56,7 +54,7 @@ public final class Teleport {
     // Make a quantum program for the GHZ and Bell states.
     //##############################################################
     @discardableResult
-    public class func teleport(_ apiToken: String, _ responseHandler: (() -> Void)? = nil) -> RequestTask {
+    public class func teleport(_ option: CommandLineOption, _ responseHandler: (() -> Void)? = nil) -> RequestTask {
         var reqTask = RequestTask()
         do {
             print()
@@ -93,27 +91,34 @@ public final class Teleport {
             //##############################################################
             // Set up the API and execute the program.
             //##############################################################
-            qp.set_api(token: apiToken)
+            var backend = CommandLineOption.Backend.localQasmSimulator
+            if let token = option.apiToken {
+                qp.set_api(token: token)
+                
+                backend = CommandLineOption.Backend.ibmqxQasmSimulator
+            }
 
             print("Experiment does not support feedback, so we use the simulator")
 
             print("First version: not mapped")
-            let r = qp.execute(["teleport"], backend: backend,coupling_map: nil,shots: 1024) { (result) in
+            let r = qp.execute(["teleport"], backend: backend.rawValue, coupling_map: nil, shots: 1024) { (result) in
                 do {
                     if let error = result.get_error() {
                         print(error)
                         responseHandler?()
+
                         return
                     }
                     print(result)
                     print(try result.get_counts("teleport"))
 
                     print("Second version: mapped to qx2 coupling graph")
-                    let r = qp.execute(["teleport"], backend: backend,coupling_map: coupling_map,shots: 1024) { (result) in
+                    let r = qp.execute(["teleport"], backend: backend.rawValue, coupling_map: coupling_map, shots: 1024) { (result) in
                         do {
                             if let error = result.get_error() {
                                 print(error)
                                 responseHandler?()
+
                                 return
                             }
                             print(result)
@@ -123,6 +128,7 @@ public final class Teleport {
                         } catch {
                             print(error.localizedDescription)
                         }
+                        
                         responseHandler?()
                     }
                     reqTask += r

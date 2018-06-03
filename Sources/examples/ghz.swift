@@ -21,7 +21,6 @@ import qiskit
  */
 public final class GHZ {
 
-    private static let backend: String = "ibmqx2"
     private static let QPS_SPECS: [String: Any] = [
         "name": "ghz",
         "circuits": [[
@@ -49,9 +48,154 @@ public final class GHZ {
     //##############################################################
     // Make a quantum program for the GHZ state.
     //##############################################################
-    @discardableResult
-    public class func ghz(_ apiToken: String, _ responseHandler: (() -> Void)? = nil) -> RequestTask {
+    private class func executeRemote(quantumProgram: QuantumProgram,
+                                     circuit: String,
+                                     _ responseHandler: (() -> Void)?) -> RequestTask {
         var reqTask = RequestTask()
+
+        var backend = CommandLineOption.Backend.ibmqxQasmSimulator
+        print("First version: not compiled")
+        print("no mapping, simulator")
+        let r = quantumProgram.execute([circuit], backend: backend.rawValue, coupling_map: nil,shots: 1024) { (result) in
+            do {
+                if let error = result.get_error() {
+                    print(error)
+                    responseHandler?()
+
+                    return
+                }
+
+                print(result)
+                print(try result.get_counts(circuit))
+
+                print("Second version: map to qx2 coupling graph and simulate")
+                print("map to \(backend), simulator")
+                let r = quantumProgram.execute([circuit], backend: backend.rawValue, coupling_map: coupling_map, shots: 1024) { (result) in
+                    do {
+                        if let error = result.get_error() {
+                            print(error)
+                            responseHandler?()
+
+                            return
+                        }
+
+                        print(result)
+                        print(try result.get_counts(circuit))
+
+                        backend = CommandLineOption.Backend.localQasmSimulator
+                        print("Third version: map to qx2 coupling graph and simulate locally")
+                        print("map to \(backend), local qasm simulator")
+                        let r = quantumProgram.execute([circuit], backend: backend.rawValue, coupling_map: coupling_map, shots: 1024) { (result) in
+                            do {
+                                if let error = result.get_error() {
+                                    print(error)
+                                    responseHandler?()
+
+                                    return
+                                }
+
+                                print(result)
+                                print(try result.get_counts(circuit))
+
+                                backend = CommandLineOption.Backend.ibmqx2
+                                print("Fourth version: map to qx2 coupling graph and run on qx2")
+                                print("map to \(backend), backend")
+                                let r = quantumProgram.get_backend_status(backend.rawValue) { (status, e) in
+                                    if let error = e {
+                                        print(error)
+                                        responseHandler?()
+
+                                        return
+                                    }
+
+                                    print("Status \(backend): \(status)")
+                                    guard let available = status["available"] as? Bool else {
+                                        print("backend \(backend) not available")
+                                        responseHandler?()
+
+                                        return
+                                    }
+                                    if !available {
+                                        print("backend \(backend) not available")
+                                        responseHandler?()
+
+                                        return
+                                    }
+                                    let r = quantumProgram.execute([circuit], backend: backend.rawValue, timeout: 120, coupling_map: coupling_map, shots: 1024) { (result) in
+                                        do {
+                                            if let error = result.get_error() {
+                                                print(error)
+                                                responseHandler?()
+
+                                                return
+                                            }
+
+                                            print(result)
+                                            print(try result.get_counts(circuit))
+                                            print("ghz end")
+                                        } catch {
+                                            print(error.localizedDescription)
+                                        }
+                                        
+                                        responseHandler?()
+                                    }
+                                    reqTask += r
+                                }
+                                reqTask += r
+                            } catch {
+                                print(error.localizedDescription)
+                                responseHandler?()
+                            }
+                        }
+                        reqTask += r
+                    } catch {
+                        print(error.localizedDescription)
+                        responseHandler?()
+                    }
+                }
+                reqTask += r
+            } catch {
+                print(error.localizedDescription)
+                responseHandler?()
+            }
+        }
+        reqTask += r
+
+        return reqTask
+    }
+
+    private class func executeLocal(quantumProgram: QuantumProgram,
+                                    circuit: String,
+                                    _ responseHandler: (() -> Void)?) -> RequestTask {
+        var reqTask = RequestTask()
+
+        let backend = CommandLineOption.Backend.localQasmSimulator
+        print("map to qx2 coupling graph and simulate locally")
+        print("map to \(backend), local qasm simulator")
+        let r = quantumProgram.execute([circuit], backend: backend.rawValue, coupling_map: coupling_map, shots: 1024) { (result) in
+            do {
+                if let error = result.get_error() {
+                    print(error)
+                    responseHandler?()
+
+                    return
+                }
+
+                print(result)
+                print(try result.get_counts(circuit))
+            } catch {
+                print(error.localizedDescription)
+            }
+
+            responseHandler?()
+        }
+        reqTask += r
+
+        return reqTask
+    }
+
+    @discardableResult
+    public class func ghz(_ option: CommandLineOption, _ responseHandler: (() -> Void)? = nil) -> RequestTask {
         do {
             print()
             print("#################################################################")
@@ -73,106 +217,22 @@ public final class GHZ {
                 try qc.measure(q[i], c[i])
             }
 
-            //##############################################################
-            // Set up the API and execute the program.
-            //##############################################################
-            qp.set_api(token: apiToken)
+            if let token = option.apiToken {
+                //##############################################################
+                // Set up the API and execute the program.
+                //##############################################################
+                qp.set_api(token: token)
 
-            print("First version: not compiled")
-            print("no mapping, simulator")
-            let r = qp.execute(["ghz"], backend: "ibmqx_qasm_simulator", coupling_map: nil,shots: 1024) { (result) in
-                do {
-                    if let error = result.get_error() {
-                        print(error)
-                        responseHandler?()
-                        return
-                    }
-                    print(result)
-                    print(try result.get_counts("ghz"))
-
-                    print("Second version: map to qx2 coupling graph and simulate")
-                    print("map to \(backend), simulator")
-                    let r = qp.execute(["ghz"], backend: "ibmqx_qasm_simulator", coupling_map: coupling_map,shots: 1024) { (result) in
-                        do {
-                            if let error = result.get_error() {
-                                print(error)
-                                responseHandler?()
-                                return
-                            }
-                            print(result)
-                            print(try result.get_counts("ghz"))
-
-                            print("Third version: map to qx2 coupling graph and simulate locally")
-                            print("map to \(backend), local qasm simulator")
-                            let r = qp.execute(["ghz"], backend: "local_qasm_simulator",coupling_map: coupling_map,shots: 1024) { (result) in
-                                do {
-                                    if let error = result.get_error() {
-                                        print(error)
-                                        responseHandler?()
-                                        return
-                                    }
-                                    print(result)
-                                    print(try result.get_counts("ghz"))
-
-                                    print("Fourth version: map to qx2 coupling graph and run on qx2")
-                                    print("map to \(backend), backend")
-                                    let r = qp.get_backend_status(backend) { (status,e) in
-                                        if let error = e {
-                                            print(error)
-                                            responseHandler?()
-                                            return
-                                        }
-                                        print("Status \(backend): \(status)")
-                                        guard let available = status["available"] as? Bool else {
-                                            print("backend \(backend) not available")
-                                            responseHandler?()
-                                            return
-                                        }
-                                        if !available {
-                                            print("backend \(backend) not available")
-                                            responseHandler?()
-                                            return
-                                        }
-                                        let r = qp.execute(["ghz"], backend: backend,timeout:120, coupling_map: coupling_map,shots: 1024) { (result) in
-                                            do {
-                                                if let error = result.get_error() {
-                                                    print(error)
-                                                    responseHandler?()
-                                                    return
-                                                }
-                                                print(result)
-                                                print(try result.get_counts("ghz"))
-                                                print("ghz end")
-                                            } catch {
-                                                print(error.localizedDescription)
-                                            }
-                                            responseHandler?()
-                                        }
-                                        reqTask += r
-                                    }
-                                    reqTask += r
-                                } catch {
-                                    print(error.localizedDescription)
-                                    responseHandler?()
-                                }
-                            }
-                            reqTask += r
-                        } catch {
-                            print(error.localizedDescription)
-                            responseHandler?()
-                        }
-                    }
-                    reqTask += r
-                } catch {
-                    print(error.localizedDescription)
-                    responseHandler?()
-                }
+                return executeRemote(quantumProgram: qp, circuit: "ghz", responseHandler)
             }
-            reqTask += r
+
+            return executeLocal(quantumProgram: qp, circuit: "ghz", responseHandler)
         } catch {
             print(error.localizedDescription)
+
             responseHandler?()
         }
-        return reqTask
+
+        return RequestTask()
     }
 }

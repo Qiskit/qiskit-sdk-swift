@@ -18,7 +18,6 @@ import qiskit
 
 public final class RippleAdd {
 
-    private static let backend: String = "ibmqx_qasm_simulator"
     private static let coupling_map = [0: [1, 8], 1: [2, 9], 2: [3, 10], 3: [4, 11], 4: [5, 12],
                                         5: [6, 13], 6: [7, 14], 7: [15], 8: [9], 9: [10], 10: [11],
                                         11: [12], 12: [13], 13: [14], 14: [15]
@@ -43,8 +42,9 @@ public final class RippleAdd {
 
     private init() {
     }
+    
     @discardableResult
-    public class func rippleAdd(_ apiToken: String, _ responseHandler: (() -> Void)? = nil) -> RequestTask {
+    public class func rippleAdd(_ option: CommandLineOption, _ responseHandler: (() -> Void)? = nil) -> RequestTask {
         var reqTask = RequestTask()
         do {
             print()
@@ -85,26 +85,33 @@ public final class RippleAdd {
             //###############################################################
             //# Set up the API and execute the program.
             //###############################################################
-            qp.set_api(token: apiToken)
+            var backend = CommandLineOption.Backend.localQasmSimulator
+            if let token = option.apiToken {
+                qp.set_api(token: token)
+
+                backend = CommandLineOption.Backend.ibmqxQasmSimulator
+            }
 
             print("First version: not mapped")
-            let r = qp.execute(["rippleadd"], backend: backend, coupling_map: nil,shots: 1024) { (result) in
+            let r = qp.execute(["rippleadd"], backend: backend.rawValue, coupling_map: nil, shots: 1024) { (result) in
                 do {
                     if let error = result.get_error() {
                         print(error)
                         responseHandler?()
+
                         return
                     }
                     print(result)
                     print(try result.get_counts("rippleadd"))
                     print("Second version: mapped to 2x8 array coupling graph")
                     let r = qp.compile(["rippleadd"],
-                                      backend: backend,
+                                      backend: backend.rawValue,
                                       coupling_map: coupling_map,
                                       shots: 1024) { (qobj,error) in
                         if error != nil {
                             print(error!)
                             responseHandler?()
+
                             return
                         }
                         let r = qp.run_async(qobj) { (result) in
@@ -112,6 +119,7 @@ public final class RippleAdd {
                                 if let error = result.get_error() {
                                     print(error)
                                     responseHandler?()
+
                                     return
                                 }
                                 print(result)
@@ -121,6 +129,7 @@ public final class RippleAdd {
                             } catch {
                                 print(error.localizedDescription)
                             }
+
                             responseHandler?()
                         }
                         reqTask += r
