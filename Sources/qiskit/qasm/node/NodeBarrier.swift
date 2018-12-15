@@ -23,7 +23,7 @@ import Foundation
 final class NodeBarrier: Node {
 
     let list: Node
-    
+
     init(list: Node) {
         self.list = list
     }
@@ -31,7 +31,7 @@ final class NodeBarrier: Node {
     var type: NodeType {
         return .N_BARRIER
     }
-    
+
     var children: [Node] {
         return [self.list]
     }

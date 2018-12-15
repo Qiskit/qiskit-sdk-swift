@@ -22,7 +22,7 @@ import Foundation
 struct StateQsphereChartHtmlFactory {
 
     // MARK: - Public class methods
-    
+
     static func makeHtml(numberOfBits: Int, series: [StateQsphereChartSerie]) -> String {
         var divs = ""
 

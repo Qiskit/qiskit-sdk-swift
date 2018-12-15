@@ -30,7 +30,7 @@ let package = Package(
             name: "qiskit",
             dependencies: ["crandom","cqasmparser"]),
         .target(
-            name: "examples", 
+            name: "examples",
             dependencies: ["qiskit"]),
         .testTarget(
             name: "qiskitTests",

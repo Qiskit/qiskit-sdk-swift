@@ -22,11 +22,11 @@ public enum QasmError: LocalizedError, CustomStringConvertible {
     case errorExternal(qasm: String)
     case errorLocalParameter(qasm: String)
     case internalError(error: Error)
-    
+
     public var errorDescription: String? {
         return self.description
     }
-    
+
     public var description: String {
         switch self {
         case .errorBinop(let qasm):

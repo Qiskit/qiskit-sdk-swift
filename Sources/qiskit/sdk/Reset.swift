@@ -21,7 +21,7 @@ import Foundation
 public final class Reset: Instruction, CopyableInstruction {
 
     public let instructionComponent: InstructionComponent
-    
+
     init(_ qubit: QuantumRegisterTuple, _ circuit: QuantumCircuit) {
         self.instructionComponent = InstructionComponent("reset", [], [qubit], circuit)
     }

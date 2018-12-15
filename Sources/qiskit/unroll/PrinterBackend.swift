@@ -87,7 +87,7 @@ final class PrinterBackend: UnrollerBackend {
     }
 
     /**
-     Print OPENQASM for the named gate. 
+     Print OPENQASM for the named gate.
      */
     private func _gate_string(_ name: String) -> String {
         guard let gate = self.gates[name] else {

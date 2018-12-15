@@ -45,11 +45,11 @@ class QiskitProgramTests: XCTestCase {
                 ["name": "cname", "size": 3],
             ]]]
     ]
-    
+
     override func setUp() {
         super.setUp()
     }
-    
+
     override func tearDown() {
         super.tearDown()
     }
@@ -137,7 +137,7 @@ class QiskitProgramTests: XCTestCase {
         }
 
     }
-    
+
     func testPrintCircuit() {
         do {
             let qprogram = try QuantumProgram(specs: QiskitProgramTests.QPS_SPECS)
@@ -147,7 +147,7 @@ class QiskitProgramTests: XCTestCase {
             try qc.h(qr[1])
             let result = qc.qasm()
             XCTAssertEqual(result, "OPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg qname[3];\ncreg cname[3];\nh qname[1];\n")
-            
+
         } catch {
             XCTFail("\(error)")
         }
@@ -162,12 +162,12 @@ class QiskitProgramTests: XCTestCase {
             try qc.h(qr[1])
             let result = try qprogram.get_qasm("circuitName")
             XCTAssertEqual(result, "OPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg qname[3];\ncreg cname[3];\nh qname[1];\n")
-            
+
         } catch {
             XCTFail("\(error)")
         }
     }
-    
+
     func testAddGates() {
         do {
             let str: String =
@@ -185,7 +185,7 @@ class QiskitProgramTests: XCTestCase {
             "if(cname==1) x qname[2];\n" +
             "measure qname[0] -> cname[0];\n" +
             "measure qname[1] -> cname[1];\n"
-            
+
             let qprogram = try QuantumProgram(specs: QiskitProgramTests.QPS_SPECS)
             let qc = try qprogram.get_circuit("circuitName")
             let qr = try qprogram.get_quantum_register("qname")
@@ -201,14 +201,14 @@ class QiskitProgramTests: XCTestCase {
             try qc.x(qr[2]).c_if(cr, 1)
             try qc.measure(qr[0], cr[0])
             try qc.measure(qr[1], cr[1])
-            
+
             let result = try qprogram.get_qasm("circuitName")
             XCTAssertEqual(str,result)
-            
+
         } catch {
             XCTFail("\(error)")
         }
-   
+
     }
 
     func testCreateCircuitMultipleRegisters() {
@@ -218,22 +218,22 @@ class QiskitProgramTests: XCTestCase {
             let cname = try qprogram.get_classical_register("cname")
             let qr = try qprogram.create_quantum_register("qr", 3)
             let cr = try qprogram.create_classical_register("cr", 3)
-            
+
             let result = try qprogram.create_circuit("qc2",
                                                  [qname, qr],
                                                  [cname, cr])
-            
+
             XCTAssertEqual(result.qasm(), "OPENQASM 2.0;\ninclude \"qelib1.inc\";\nqreg qname[3];\nqreg qr[3];\ncreg cname[3];\ncreg cr[3];\n")
         } catch {
             XCTFail("\(error)")
         }
-        
+
     }
 
     func testContactMultipleHorizontalRegisters() {
         do {
             let qprogram = try QuantumProgram(specs: QiskitProgramTests.QPS_SPECS)
-            
+
             let qname = try qprogram.get_quantum_register("qname")
             let cname = try qprogram.get_classical_register("cname")
             let qc2 = try qprogram.create_circuit("qc2",[qname],[cname])
@@ -250,9 +250,9 @@ class QiskitProgramTests: XCTestCase {
         } catch {
             XCTFail("\(error)")
         }
-        
+
     }
-    
+
     func testCompileProgram() {
         do {
             let qprogram = try QuantumProgram(specs: QiskitProgramTests.QPS_SPECS)

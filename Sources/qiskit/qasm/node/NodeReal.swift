@@ -22,11 +22,11 @@ This node has no children. The data is in the value field.
 class NodeReal: NodeRealValue {
 
     let value: Double
-    
+
     init(id: Double) {
         self.value = id
     }
-    
+
     var type: NodeType {
         return .N_REAL
     }
@@ -34,7 +34,7 @@ class NodeReal: NodeRealValue {
     var children: [Node] {
         return []
     }
-    
+
     func qasm(_ prec: Int) -> String {
         return self.value.format(prec)
     }

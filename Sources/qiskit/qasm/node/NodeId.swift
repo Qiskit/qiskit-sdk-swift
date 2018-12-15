@@ -28,18 +28,18 @@ final class NodeId: NodeRealValue {
     private(set) var file: String = ""
     private(set) var index: Int = 0  // FIXME where does the index come from?
     private(set) var is_bit: Bool = false
-    
+
     init(identifier: String, line: Int) {
         self._name = identifier
         self.line = line
         self.file = "" // FIXME find the name
         self.is_bit = false
     }
-    
+
     var type: NodeType {
         return .N_ID
     }
-    
+
     var name: String {
         return self._name
     }

@@ -25,20 +25,20 @@ final class NodeCnot: Node {
 
     let arg1: Node
     let arg2: Node
-    
+
     init(arg1: Node, arg2: Node) {
         self.arg1 = arg1
         self.arg2 = arg2
     }
-    
+
     var type: NodeType {
         return .N_CNOT
     }
-    
+
     var children: [Node] {
         return [self.arg1,self.arg2]
     }
-    
+
     func qasm(_ prec: Int) -> String {
         var qasm: String = "CX"
         qasm += " \(self.arg1.qasm(prec))"

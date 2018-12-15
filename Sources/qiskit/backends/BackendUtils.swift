@@ -65,7 +65,7 @@ final class BackendUtils {
     private var _registered_backends: [String:RegisteredBackend] = [:]
     private var _api: IBMQuantumExperience?
     private var needsUpdate: Bool = true
-    private let lock = NSRecursiveLock()    
+    private let lock = NSRecursiveLock()
 
     var api: IBMQuantumExperience? {
         get {

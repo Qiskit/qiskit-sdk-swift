@@ -24,20 +24,20 @@ final class NodeMeasure: Node {
 
     let arg1: Node
     let arg2: Node
-    
+
     init(arg1: Node, arg2: Node) {
         self.arg1 = arg1
         self.arg2 = arg2
     }
-    
+
     var type: NodeType {
         return .N_MEASURE
     }
-    
+
     var children: [Node] {
         return [arg1,arg2]
     }
-    
+
     func qasm(_ prec: Int) -> String {
         return "measure \(arg1.qasm(prec)) -> \(arg2.qasm(prec));"
     }

@@ -25,7 +25,7 @@ class LocalUnitarySimulatorTests: XCTestCase {
         ("test_unitary_simulator",test_unitary_simulator),
         ("test_two_unitary_simulator",test_two_unitary_simulator)
     ]
-    
+
     private var seed: Int = 0
     private var qp: QuantumProgram? = nil
     private var qobj: [String:Any] = [:]
@@ -40,7 +40,7 @@ class LocalUnitarySimulatorTests: XCTestCase {
             XCTFail("LocalUnitarySimulatorTests: \(error)")
         }
     }
-    
+
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()

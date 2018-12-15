@@ -31,17 +31,17 @@ final class NodeMagic:  Node {
     var type: NodeType {
         return .N_MAGIC
     }
-    
+
     var children: [Node] {
         var _children: [Node] = []
-        
+
         if let version = nodeVersion {
             _children.append(version)
         }
-        
+
         return _children
     }
-    
+
     func qasm(_ prec: Int) -> String {
         guard let version = nodeVersion else {
             assertionFailure("Invalid NodeMagic Operation")

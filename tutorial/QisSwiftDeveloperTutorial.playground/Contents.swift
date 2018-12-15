@@ -3,7 +3,7 @@
 ![Playground icon](QISKit-c.gif)
 
 [https://github.com/QISKit/qiskit-sdk-swift]: https://github.com/QISKit/qiskit-sdk-swift "IBM QISKit Swift SDK"
- 
+
  ## Getting Started with the QISKit Swift API
  The Official API Client to use **IBM Quantum Experience in Swift**.
  The latest version of this playground is available on [https://github.com/QISKit/qiskit-sdk-swift].
@@ -61,7 +61,7 @@ do {
     let q = try QuantumRegister("q", 5)
     let c = try ClassicalRegister("c", 5)
 
-/*: 
+/*:
  ### Quantum Circuit
  The following code represents a quantum circuit
 */

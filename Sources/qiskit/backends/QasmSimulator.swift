@@ -39,7 +39,7 @@ import Dispatch
 
  if shots > 1
     results['data']["counts"] where this is dict {"0000" : 454}
- 
+
  The simulator is run using
  .. code-block:: python
     QasmSimulator(compiled_circuit,shots,seed).run().
@@ -391,7 +391,7 @@ final class QasmSimulator: BaseBackend {
             }
         }
         var outcomes: [String] = []
-        
+
         for _ in 0..<self._shots {
             if reqTask.isCancelled() {
                 throw SimulatorError.simulationCancelled

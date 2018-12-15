@@ -24,7 +24,7 @@ public enum SimulatorError: LocalizedError, CustomStringConvertible {
     case missingCompiledCircuit
     case missingOperationName
     case simulationCancelled
-   
+
     public var errorDescription: String? {
         return self.description
     }

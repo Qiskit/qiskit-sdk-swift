@@ -81,7 +81,7 @@ public final class QuantumProgram: CustomStringConvertible {
      only exists once you set the api to use the online backends
      */
     private var __api_config: [String:Any] = [:]
- 
+
     private var __quantum_registers:   OrderedDictionary<String,QuantumRegister> = OrderedDictionary<String,QuantumRegister>()
     private var __classical_registers: OrderedDictionary<String,ClassicalRegister> = OrderedDictionary<String,ClassicalRegister>()
     /**
@@ -130,7 +130,7 @@ public final class QuantumProgram: CustomStringConvertible {
 
     /**
      Populate the Quantum Program Object with initial Specs
-     
+
      Args:
          specs (dict):
              Q_SPECS = {
@@ -467,7 +467,7 @@ public final class QuantumProgram: CustomStringConvertible {
 
     /**
      Load qasm string in the quantum program.
-     
+
      Args:
         qasm_string (str): a string for the file name.
         name (str): the name of the quantum circuit after loading qasm
@@ -494,7 +494,7 @@ public final class QuantumProgram: CustomStringConvertible {
         SDKLogger.logInfo("circuit name: \(name)")
         SDKLogger.logInfo("******************************")
         SDKLogger.logInfo(node_circuit.qasm(15))
-       
+
         // current method to turn it a DAG quantum circuit.
         let unrolled_circuit = Unroller(node_circuit, CircuitBackend(basis_gates.components(separatedBy:",")))
         let circuit_unrolled = try unrolled_circuit.execute() as! QuantumCircuit

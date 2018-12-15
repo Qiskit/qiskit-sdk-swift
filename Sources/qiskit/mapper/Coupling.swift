@@ -208,7 +208,7 @@ final class Coupling: CustomStringConvertible {
     /**
      Compute the distance function on pairs of nodes.
      The distance map self.dist is computed from the graph using
-     all_pairs_shortest_path_length    
+     all_pairs_shortest_path_length
     */
     private func compute_distance() throws {
         if try !self.connected() {

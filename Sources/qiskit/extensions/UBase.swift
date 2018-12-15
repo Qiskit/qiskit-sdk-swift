@@ -22,7 +22,7 @@ import Foundation
 public final class UBase: Gate, CopyableInstruction {
 
     public let instructionComponent: InstructionComponent
-    
+
     fileprivate init(_ params: [Double], _ qubit: QuantumRegisterTuple, _ circuit: QuantumCircuit) throws {
         if params.count != 3 {
             throw QISKitError.not3Params

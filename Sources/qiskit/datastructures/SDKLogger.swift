@@ -77,9 +77,9 @@ public final class SDKLogger {
     static public var type: LogType = .typeDefault
 
     static public func isEnabled(type: LogType) -> Bool {
-        #if os(Linux) 
+        #if os(Linux)
             return type.rawValue >= SDKLogger.type.rawValue
-        #else        
+        #else
             if #available(OSX 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *) {
                 return logger.isEnabled(type:SDKLogger.logTypeToOSLogType(type))
             }
@@ -91,9 +91,9 @@ public final class SDKLogger {
 
     static public func log(_ message: String, type: LogType = .typeDefault) {
         if isEnabled(type: type) {
-            #if os(Linux) 
+            #if os(Linux)
                 debugPrint(message)
-            #else  
+            #else
                 if #available(OSX 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *) {
                     os_log("%@", log: logger, type: SDKLogger.logTypeToOSLogType(type), message)
                 }
@@ -115,7 +115,7 @@ public final class SDKLogger {
     static public func logInfo(_ message: CustomStringConvertible) {
         log(message, type: .typeInfo)
     }
-    
+
     static public func logDebug(_ message: String) {
         log(message, type: .typeDebug)
     }
@@ -123,7 +123,7 @@ public final class SDKLogger {
     static public func logDebug(_ message: CustomStringConvertible) {
         log(message, type: .typeDebug)
     }
-    
+
     static public func logError(_ message: String) {
         log(message, type: .typeError)
     }
@@ -131,7 +131,7 @@ public final class SDKLogger {
     static public func logError(_ message: CustomStringConvertible) {
         log(message, type: .typeError)
     }
-    
+
     static public func logFault(_ message: String) {
         log(message, type: .typeFault)
     }

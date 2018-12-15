@@ -27,7 +27,7 @@ class LocalQasmSimulatorTests: XCTestCase {
         ("test_if_statement",test_if_statement),
         ("test_teleport",test_teleport)
     ]
-    
+
     private var seed: Int = 0
     private var qp: QuantumProgram? = nil
     private var qobj: [String:Any] = [:]
@@ -69,7 +69,7 @@ class LocalQasmSimulatorTests: XCTestCase {
             XCTFail("LocalQasmSimulatorTest: \(error)")
         }
     }
-    
+
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()

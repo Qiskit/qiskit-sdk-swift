@@ -472,4 +472,4 @@ public final class Fermion {
         }
         return ham_out
     }
-} 
+}

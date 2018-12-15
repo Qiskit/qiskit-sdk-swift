@@ -85,7 +85,7 @@ extension QuantumCircuit {
     public func tdg(_ q: QuantumRegisterTuple) throws -> TGate {
         return try self.t(q).inverse()
     }
-    
+
 }
 
 extension CompositeGate {
@@ -116,5 +116,5 @@ extension CompositeGate {
     public func tdg(_ q: QuantumRegisterTuple) throws -> TGate {
         return try self.t(q).inverse()
     }
-    
+
 }

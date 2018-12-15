@@ -29,24 +29,24 @@ class QiskitTests: XCTestCase {
     // enter your token in your test schema environment variable "QUANTUM_TOKEN"
     static private var APItoken = ""
     static private let TESTURL = "https://quantumexperience.ng.bluemix.net/api/"
-    
+
     override class func setUp() {
         let environment = ProcessInfo.processInfo.environment
         if let token = environment["QUANTUM_TOKEN"] {
             QiskitTests.APItoken = token
         }
     }
-    
+
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
-    
+
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-    
+
     func test5Qubit() {
         do {
             let str: String =
@@ -337,10 +337,10 @@ class QiskitTests: XCTestCase {
 
             // Classical if, from qubit2 gate Z to classical bit 1
             // circuit.z(quantum_r[2]).c_if(classical_r, 0)
-            
+
             // measure gate from the qubit 0 to classical bit 0
             try circuit.measure(quantum_r[0], classical_r[0])
-            
+
             let QASM_source = try Q_program.get_qasm("Circuit")
 
             XCTAssertEqual(str, QASM_source)

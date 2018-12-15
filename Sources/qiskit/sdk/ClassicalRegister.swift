@@ -28,7 +28,7 @@ public struct ClassicalRegister: Register, Equatable {
         self.size = size
         try self.checkProperties()
     }
-    
+
     private init() {
     }
 
@@ -40,7 +40,7 @@ public struct ClassicalRegister: Register, Equatable {
             return ClassicalRegisterTuple(self, index)
         }
     }
-    
+
     public var description: String {
         return "creg \(self.name)[\(self.size)]"
     }

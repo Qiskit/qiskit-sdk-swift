@@ -283,7 +283,7 @@ public struct Result: CustomStringConvertible {
             throw error
         }
         let qobj = self._qobj
-        if let circuits = qobj["circuits"] as? [[String:Any]], 
+        if let circuits = qobj["circuits"] as? [[String:Any]],
             let results = self._result["result"] as? [[String:Any]] {
             for (index, circuit) in circuits.enumerated() {
                 if let n = circuit["name"] as? String {

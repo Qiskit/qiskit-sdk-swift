@@ -385,7 +385,7 @@ public struct Matrix<T: NumericType> : Hashable, CustomStringConvertible, Expres
         }
         return determinant
     }
-    
+
     public func eig() -> (Matrix<Complex>, Matrix<Complex>) {
         fatalError("Matrix eig not implemented")
     }

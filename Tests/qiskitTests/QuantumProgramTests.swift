@@ -124,7 +124,7 @@ class QuantumProgramTests: XCTestCase {
         self.QASM_FILE_PATH = self._get_resource_path("entangled_registers.qasm")
         self.QASM_FILE_PATH_2 = self._get_resource_path("plaquette_check.qasm")
     }
-    
+
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
@@ -2380,7 +2380,7 @@ class QuantumProgramTests: XCTestCase {
                         // remove files to keep directory clean
                         try FileManager.default.removeItem(at: URL(fileURLWithPath: file1))
                         try FileManager.default.removeItem(at: URL(fileURLWithPath: file2))
-                        
+
                         guard let val1 = metadata_loaded1["testval"] as? Int else {
                             XCTFail("Failure in test_results_save_load. Invalid metadata_loaded1")
 			                asyncExpectation.fulfill()

@@ -28,7 +28,7 @@ final class NodeIndexedId: Node {
     private(set) var line: Int = 0
     private(set) var file: String = ""
     private(set) var index: Int = -1
-    
+
     init(identifier: Node, index: Node) {
         self.identifier = identifier
         if let _nnInt = index as? NodeNNInt {
@@ -55,7 +55,7 @@ final class NodeIndexedId: Node {
     var children: [Node] {
         return []
     }
-    
+
     func qasm(_ prec: Int) -> String {
         var qasm: String = "\(self.identifier.qasm(prec))"
         if self.index >= 0 {

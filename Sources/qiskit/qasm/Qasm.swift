@@ -31,7 +31,7 @@ final class Qasm {
     static private var root: NodeMainProgram? = nil
     static private var errorMsg: String? = nil
     static private let lock = NSRecursiveLock()
-    
+
     init(filename: String) throws {
         do {
             self.data  = try String(contentsOfFile: filename, encoding: String.Encoding.utf8)
@@ -39,7 +39,7 @@ final class Qasm {
             throw QasmError.internalError(error: error)
         }
     }
-    
+
     init(data: String) {
         self.data = data
     }

@@ -17,13 +17,13 @@
 import Foundation
 
 final class NodeInclude: Node {
-    
+
     let file: String
-    
+
     init(file: String) {
         self.file = file
     }
-    
+
     var type: NodeType {
         return .N_INCLUDE
     }

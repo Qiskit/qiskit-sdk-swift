@@ -148,7 +148,7 @@ public struct Complex: Hashable, CustomStringConvertible, NumericType, Expressib
     public func almostEqual(_ n: Complex, _ delta: Double = 0.0000001) -> Bool {
         return (self.real-n.real).absolute() <= delta && (self.imag-n.imag).absolute() <= delta
     }
-    
+
     public func add(_ n: Complex) -> Complex {
         return Complex(self.real + n.real, self.imag + n.imag)
     }

@@ -39,7 +39,7 @@ final class NodeGate: Node {
     var n_args: Int {
         return arguments?.children.count ?? 0
     }
-    
+
     var n_bits: Int {
         return self.bitlist.children.count
     }
@@ -61,13 +61,13 @@ final class NodeGate: Node {
             self.index = _id.index
         }
     }
-    
+
     init(identifier: Node, arguments: Node, bitlist: Node, body: Node) {
         self.identifier = identifier
         self.arguments = arguments
         self.bitlist = bitlist
         self.body = body
-        
+
         if let _id = self.identifier as? NodeId {
             // Name of the qreg
             self._name = _id.name
@@ -79,15 +79,15 @@ final class NodeGate: Node {
             self.index = _id.index
         }
     }
-    
+
     var type: NodeType {
         return .N_GATE
     }
-    
+
     var name: String {
         return _name
     }
- 
+
     var children: [Node] {
         var _children: [Node] = []
         _children.append(self.identifier)
@@ -98,7 +98,7 @@ final class NodeGate: Node {
         _children.append(self.body)
         return _children
     }
-    
+
     func qasm(_ prec: Int) -> String {
         var qasm = "gate \(self.name)"
         if let args = self.arguments {

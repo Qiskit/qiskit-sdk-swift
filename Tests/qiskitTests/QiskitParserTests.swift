@@ -81,7 +81,7 @@ class QiskitParserTests: XCTestCase {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
-    
+
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
@@ -146,9 +146,9 @@ class QiskitParserTests: XCTestCase {
                 let (qasmProgram,qasm) = try QiskitParserTests.runParser(qasm)
                 let whitespaceCharacterSet = CharacterSet.whitespacesAndNewlines
                 let emittedQasm = qasm.components(separatedBy: whitespaceCharacterSet).joined()
-                
+
                 let targetQasm = qasmProgram.components(separatedBy: whitespaceCharacterSet).joined()
-                
+
                 if emittedQasm != targetQasm {
                     differences[qasm] = (emittedQasm,targetQasm)
                 }
@@ -177,7 +177,7 @@ class QiskitParserTests: XCTestCase {
             XCTFail("\(error)")
         }
     }
-    
+
     func testErrorCorrection() {
         do {
             let (qasmProgram,qasm) = try QiskitParserTests.runParser(QiskitParserTests.qasmProgram2)
@@ -258,7 +258,7 @@ class QiskitParserTests: XCTestCase {
             XCTFail("\(error)")
         }
     }
-    
+
     func testParserRippleAdd () {
         let qasmProgram: String =
             "OPENQASM 2.0;" +
@@ -328,7 +328,7 @@ class QiskitParserTests: XCTestCase {
             XCTFail("\(error)")
         }
     }
- 
+
     func testParserQPT () {
 
         let qasmProgram: String =

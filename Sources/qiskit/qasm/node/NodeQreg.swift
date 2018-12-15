@@ -26,7 +26,7 @@ final class NodeQreg: Node {
     private(set) var line: Int = 0
     private(set) var file: String = ""
     private(set) var index: Int = 0
-    
+
     init(indexedid: Node, line: Int, file: String) {
         self.indexedid = indexedid
         if let _id = self.indexedid as? NodeIndexedId {
@@ -40,11 +40,11 @@ final class NodeQreg: Node {
             self.index = _id.index
         }
     }
-    
+
     var type: NodeType {
         return .N_QREG
     }
-    
+
     var name: String {
         return _name
     }
@@ -52,7 +52,7 @@ final class NodeQreg: Node {
     var children: [Node] {
         return [self.indexedid]
     }
-    
+
     func qasm(_ prec: Int) -> String {
         return "qreg " + self.indexedid.qasm(prec) + ";"
     }

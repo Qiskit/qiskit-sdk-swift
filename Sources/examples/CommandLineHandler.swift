@@ -18,7 +18,7 @@ import Foundation
 public final class CommandLineHandler {
     private let arguments: [String]
 
-    public init(arguments: [String] = CommandLine.arguments) { 
+    public init(arguments: [String] = CommandLine.arguments) {
         self.arguments = arguments
     }
 

@@ -37,7 +37,7 @@ public final class CzGate: Gate, CopyableInstruction {
     public var description: String {
         return self._qasmif("\(name) \(self.args[0].identifier),\(self.args[1].identifier)")
     }
-    
+
     /**
      Invert this gate.
      */

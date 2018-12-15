@@ -344,7 +344,7 @@ final class Mapping {
          a layout dict mapping qubits of circuit_graph into qubits
          of coupling_graph. The layout may differ from the initial_layout
          if the first layer of gates cannot be executed on the
-         initial_layout.  
+         initial_layout.
      */
     static func swap_mapper(_ circuit_graph: DAGCircuit,
                             _ coupling_graph: Coupling,
@@ -680,7 +680,7 @@ final class Mapping {
         let qx_basis = ["u1", "u2", "u3", "cx", "id"]
         let urlr = try Unroller(Qasm(data: circuit.qasm()).parse(), DAGBackend(qx_basis))
         let unrolled = try urlr.execute() as! DAGCircuit
-       
+
         let runs = try unrolled.collect_runs(["u1", "u2", "u3", "id"])
         for run in runs {
             let qname = (run[0].data as! CircuitVertexOpData).qargs[0]

@@ -116,7 +116,7 @@ final class Graph<VertexDataType: GraphDataCopying,EdgeDataType: GraphDataCopyin
             copy.vertices[vertex.key] = vertex
         }
         for (key,multiEdges) in self._edges {
-            var newMultiEdges: [GraphEdge<EdgeDataType>] = [] 
+            var newMultiEdges: [GraphEdge<EdgeDataType>] = []
             for edge in multiEdges {
                 newMultiEdges.append(edge.copy())
             }
@@ -488,7 +488,7 @@ final class Graph<VertexDataType: GraphDataCopying,EdgeDataType: GraphDataCopyin
     public func order() -> Int {
         return self.vertices.count
     }
-    
+
     public func is_directed_acyclic_graph() -> Bool {
         if !self.isDirected {
             return false

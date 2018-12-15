@@ -254,7 +254,7 @@ public final class Optimization {
                                 // update master
                                 if p_2.1.v[i] == 1 || p_2.1.w[i] == 1 {
                                     pauli_list_temp[0].1.v[i] = p_2.1.v[i]
-                                    pauli_list_temp[0].1.w[i] = p_2.1.w[i] 
+                                    pauli_list_temp[0].1.w[i] = p_2.1.w[i]
                                 }
                             }
                             j += 1

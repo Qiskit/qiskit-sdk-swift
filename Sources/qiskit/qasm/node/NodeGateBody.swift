@@ -22,7 +22,7 @@ import Foundation
  These are one of barrier, custom_unitary, U, or CX.
 */
 final class NodeGateBody: Node {
-    
+
     let goplist: Node?
 
     init() {
@@ -32,7 +32,7 @@ final class NodeGateBody: Node {
     init(goplist: Node) {
         self.goplist = goplist
     }
-    
+
     func calls() -> [String] {
         // Return a list of custom gate names in this gate body."""
         var _calls: [String] = []
@@ -45,18 +45,18 @@ final class NodeGateBody: Node {
         }
         return _calls
     }
- 
+
     var type: NodeType {
         return .N_GATEBODY
     }
-   
+
    var children: [Node] {
         if let glist = goplist as? NodeGopList {
             return glist.children
         }
         return []
     }
-    
+
     func qasm(_ prec: Int) -> String {
         var qasms: [String] = []
         if let glist = goplist as? NodeGopList {

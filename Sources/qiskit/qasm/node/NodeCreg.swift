@@ -27,7 +27,7 @@ final class NodeCreg: Node {
     private(set) var line: Int = 0
     private(set) var file: String = ""
     private(set) var index: Int = 0
-    
+
     init(indexedid: Node, line: Int, file: String) {
         self.indexedid = indexedid
         if let _id = self.indexedid as? NodeIndexedId {
@@ -45,18 +45,18 @@ final class NodeCreg: Node {
     var type: NodeType {
         return .N_CREG
     }
-    
+
     var name: String {
         return self._name
     }
-    
+
     var children: [Node] {
         return [self.indexedid]
     }
-    
+
     func qasm(_ prec: Int) -> String {
         return "creg " + self.indexedid.qasm(prec) + ";"
     }
-    
+
 
 }

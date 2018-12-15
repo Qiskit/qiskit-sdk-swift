@@ -27,7 +27,7 @@ final class NodeNNInt: NodeRealValue {
     init(value: Int) {
         self.value = value
     }
-    
+
     var type: NodeType {
         return .N_INT
     }
@@ -35,7 +35,7 @@ final class NodeNNInt: NodeRealValue {
     var children: [Node] {
         return []
     }
-    
+
     func qasm(_ prec: Int) -> String {
         let qasm: String = "\(value)"
         return qasm

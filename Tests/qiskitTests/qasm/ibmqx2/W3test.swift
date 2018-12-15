@@ -14,7 +14,7 @@
 // =============================================================================
 
 // Name of Experiment: W3test v1
-// example of W-state |001> + |010> + |100> 
+// example of W-state |001> + |010> + |100>
 // found by user lukasknips at http://ibm.biz/qiskit-W3-Example
 struct W3Test {
 static let QASM = """

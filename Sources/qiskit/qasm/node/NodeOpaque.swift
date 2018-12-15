@@ -26,16 +26,16 @@ final class NodeOpaque: Node {
     let identifier: Node
     let arguments: Node
     let bitlist: Node?
-    
+
     private(set) var _name: String = ""
     private(set) var line: Int = 0
     private(set) var file: String = ""
     private(set) var index: Int = 0
-    
+
     var n_args: Int {
         return self.arguments.children.count
     }
-    
+
     var n_bits: Int {
         return self.bitlist?.children.count ?? 0
     }
@@ -71,15 +71,15 @@ final class NodeOpaque: Node {
             self.index = _id.index
         }
     }
-    
+
     var type: NodeType {
         return .N_OPAQUE
     }
-   
+
     var name: String {
         return _name
     }
-    
+
     var children: [Node] {
         var _children: [Node] = []
         _children.append(self.identifier)

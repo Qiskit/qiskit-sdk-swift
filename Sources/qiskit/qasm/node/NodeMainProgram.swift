@@ -17,7 +17,7 @@
 import Foundation
 
 final class NodeMainProgram: Node {
-    
+
     let magic: Node
     let incld: Node?
     let program: Node
@@ -33,7 +33,7 @@ final class NodeMainProgram: Node {
         self.incld = incld
         self.program = program
     }
-    
+
     var type: NodeType {
         return .N_MAINPROGRAM
     }
@@ -41,7 +41,7 @@ final class NodeMainProgram: Node {
     var children: [Node] {
         return []
     }
-    
+
     func qasm(_ prec: Int) -> String {
         var qasm: String = self.magic.qasm(prec)
         qasm += "\(self.incld?.qasm(prec) ?? "")\n"

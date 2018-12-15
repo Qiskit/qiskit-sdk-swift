@@ -31,7 +31,7 @@ public final class Credentials {
 
     private static let config_base: [String:Any] = ["url": IBMQuantumExperience.URL_BASE]
     static let CLIENT_APPLICATION: String = "qiskit-sdk-swift"
-    
+
     init(_ token: String?,
          _ config: [String:Any]? = nil) {
         self.token_unique = token

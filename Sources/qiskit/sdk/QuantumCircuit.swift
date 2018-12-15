@@ -41,7 +41,7 @@ public class QuantumCircuitHeader {
 public final class QuantumCircuit: CustomStringConvertible {
 
     public let header: QuantumCircuitHeader
-    
+
     /**
      Data contains a list of instructions in the order they were applied.
      */

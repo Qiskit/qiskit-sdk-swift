@@ -21,25 +21,25 @@ import Foundation
  children is a list of id nodes.
  */
 final class NodeIdList: Node {
-    
+
     private(set) var identifiers: [Node]
 
     init(identifier: Node) {
         self.identifiers = [identifier]
     }
-    
+
     func addIdentifier(identifier: Node) {
         self.identifiers.append(identifier)
     }
-    
+
     var type: NodeType {
         return .N_IDLIST
     }
-    
+
     var children: [Node] {
         return self.identifiers
     }
-    
+
     func qasm(_ prec: Int) -> String {
         let qasms: [String] = self.identifiers.compactMap({ (node: Node) -> String in
             return node.qasm(prec)

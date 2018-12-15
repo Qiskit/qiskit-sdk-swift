@@ -22,23 +22,23 @@ children is a list of nodes (statements).
 final class NodeProgram: Node  {
 
     private(set) var statements: [Node]
-    
+
     init(statement: Node) {
         self.statements = [statement]
     }
-    
+
     func addStatement(statement: Node) {
         self.statements.append(statement)
     }
-    
+
     var type: NodeType {
         return .N_PROGRAM
     }
-    
+
     var children: [Node] {
         return self.statements
     }
-    
+
     func qasm(_ prec: Int) -> String {
         let qasms: [String] = self.statements.compactMap({ (node: Node) -> String in
             return node.qasm(prec)

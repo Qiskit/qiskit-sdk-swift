@@ -279,7 +279,7 @@ final class DAGCircuit {
         self.node_counter += 1
         self.input_map[name] = self.node_counter
         self.node_counter += 1
-        self.output_map[name] = self.node_counter 
+        self.output_map[name] = self.node_counter
         let in_node: Int = self.input_map[name]!
         let out_node: Int = self.output_map[name]!
         self.multi_graph.add_edge(in_node, out_node,CircuitEdgeData(name))

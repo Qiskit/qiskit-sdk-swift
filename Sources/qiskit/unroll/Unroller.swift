@@ -210,58 +210,58 @@ final class Unroller {
         }
         throw UnrollerError.errorUndefinedGate(qasm: node.qasm(self.precision))
     }
-    
+
     /**
      Process a gate decl node.
      If opaque is True, process the node as an opaque gate node.
      """Process a gate node.
     */
     private func _process_gate(_ node: NodeGate) throws {
-        
+
         let n_args = node.n_args
         let n_bits = node.n_bits
-        
+
         var args: [String] = []
         if let arguments = node.arguments as? NodeIdList {
             for a in arguments.children {
                 args.append((a as! NodeId).name)
             }
         }
-        
+
         var bits: [String] = []
         if let bitlist = node.bitlist as? NodeIdList{
             for b in bitlist.children {
                 bits.append((b as! NodeId).name)
             }
-            
+
         }
-        
+
         let body: NodeGateBody? = node.body as? NodeGateBody
         let gatedata = GateData(false, n_args, n_bits, args, bits, body)
         self.gates[node.name] = gatedata
         if let backend = self.backend {
             try backend.define_gate(node.name, gatedata)
-        }        
+        }
     }
 
     private func _process_opaque(_ node: NodeOpaque) throws {
-        
+
         let n_args = node.n_args
         let n_bits = node.n_bits
-        
+
         var args: [String] = []
         if let arguments = node.arguments as? NodeIdList {
             for a in arguments.children {
                 args.append((a as! NodeId).name)
             }
         }
-        
+
         var bits: [String] = []
         if let bitlist = node.bitlist as? NodeIdList{
             for b in bitlist.children {
                 bits.append((b as! NodeId).name)
             }
-            
+
         }
 
         let gatedata = GateData(true, n_args, n_bits, args, bits, nil)
@@ -270,14 +270,14 @@ final class Unroller {
             try backend.define_gate(node.name, gatedata)
         }
     }
-    
+
     /**
      Process a CNOT gate node.
      */
     private func _process_cnot(_ node: NodeCnot) throws {
         let id0 = try self._process_bit_id(node.arg1)
         let id1 = try self._process_bit_id(node.arg2)
-        
+
         if !(id0.count == id1.count || id0.count == 1 || id1.count == 1) {
             throw UnrollerError.errorQregSize(qasm: node.qasm(self.precision))
         }
@@ -428,7 +428,7 @@ final class Unroller {
         }
         return ProcessNodesReturn()
     }
-    
+
     /**
      Set the backend object
      */

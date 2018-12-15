@@ -23,7 +23,7 @@ children are expression nodes.
 final class NodeExpressionList: Node {
 
     private(set) var expressionList: [Node]
-    
+
     init(expression: Node) {
         self.expressionList = [expression]
     }
@@ -31,15 +31,15 @@ final class NodeExpressionList: Node {
     func addExpression(exp: Node) {
         self.expressionList.insert(exp, at: 0)
     }
-    
+
     var type: NodeType {
         return .N_EXPRESSIONLIST
     }
-    
+
     var children: [Node] {
         return self.expressionList
     }
-    
+
     func qasm(_ prec: Int) -> String {
         var qasms: [String] = []
         for node in self.expressionList {

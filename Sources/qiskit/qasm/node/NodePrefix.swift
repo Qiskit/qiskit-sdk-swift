@@ -29,15 +29,15 @@ final class NodePrefix: NodeRealValue {
         self.op = op
         self._children = children
     }
-    
+
     var type: NodeType {
         return .N_PREFIX
     }
-    
+
     var children: [Node] {
         return self._children
     }
-    
+
     func qasm(_ prec: Int) -> String {
         let operand = self._children[0]
         if operand.type == .N_BINARYOP {

@@ -19,15 +19,15 @@ import Foundation
 final class NodeGopList: Node {
 
    private(set) var gateops: [Node]
-    
+
     init(gateop: Node) {
         self.gateops = [gateop]
     }
-    
+
     func addIdentifier(gateop: Node) {
         self.gateops.append(gateop)
     }
-    
+
     func calls() -> [String] {
         // Return a list of custom gate names in this gate body."""
         var _calls: [String] = []
@@ -38,15 +38,15 @@ final class NodeGopList: Node {
         }
         return _calls
     }
-    
+
     var type: NodeType {
         return .N_GATEOPLIST
     }
-    
+
     var children: [Node] {
         return self.gateops
     }
-    
+
     func qasm(_ prec: Int) -> String {
         let qasms: [String] = self.gateops.compactMap({ (node: Node) -> String in
             return node.qasm(prec)

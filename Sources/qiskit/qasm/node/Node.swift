@@ -48,6 +48,6 @@ enum NodeType: String {
 protocol Node {
     var type: NodeType { get }
     var children: [Node] { get }
-    
+
     func qasm(_ prec: Int) -> String
 }

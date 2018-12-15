@@ -41,7 +41,7 @@ public final class IBMQuantumExperience {
 
     /**
      Creates Quantum Experience object with a given configuration.
-     
+
      - parameter token: API token
      - parameter config: Dictionary
      */
@@ -889,11 +889,11 @@ public final class IBMQuantumExperience {
             for var dict in qasms {
                 if var value = dict["qasm"] as? String {
                     value = value.replacingOccurrences(of: "IBMQASM 2.0;", with: "")
-                    dict["qasm"] = value.replacingOccurrences(of: "OPENQASM 2.0;", with: "") 
+                    dict["qasm"] = value.replacingOccurrences(of: "OPENQASM 2.0;", with: "")
                 }
                 qasmArray.append(dict)
             }
-            data["qasms"] = qasmArray 
+            data["qasms"] = qasmArray
             data["shots"] = shots
             if let c = maxCredits {
                 data["maxCredits"] = c

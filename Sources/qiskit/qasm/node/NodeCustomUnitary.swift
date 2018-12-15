@@ -30,7 +30,7 @@ Has properties:
 .bitlist = primary_list node
 */
 final class NodeCustomUnitary: Node {
-    
+
     let identifier: Node
     let arguments: Node?
     let bitlist: Node
@@ -53,7 +53,7 @@ final class NodeCustomUnitary: Node {
             _name = _id._name
         }
     }
-    
+
     var type: NodeType {
         return .N_CUSTOMUNITARY
     }

@@ -26,12 +26,12 @@ final class NodeBinaryOp: NodeRealValue {
 
     let op: String
     let _children: [Node]
-    
+
     init(op: String, children: [Node]) {
         self.op = op
         self._children = children
     }
-    
+
     var type: NodeType {
         return .N_BINARYOP
     }
@@ -39,18 +39,18 @@ final class NodeBinaryOp: NodeRealValue {
     var children: [Node] {
         return self._children
     }
-    
+
     func qasm(_ prec: Int) -> String {
         let lhs = _children[0]
         let rhs = _children[1]
-        
+
         var lhsqasm = lhs.qasm(prec)
         if lhs.type == .N_BINARYOP {
             if (lhs as! NodeBinaryOp).op == "+" || (lhs as! NodeBinaryOp).op == "-" {
                 lhsqasm = "(\(lhs.qasm(prec)))"
             }
         }
-        
+
         return "\(lhsqasm) \(op) \(rhs.qasm(prec))"
     }
 

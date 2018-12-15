@@ -27,16 +27,16 @@ final class NodeExternal: NodeRealValue {
 
     let operation: String
     let expression: Node
-    
+
     init(operation: String, expression: Node) {
         self.operation = operation
         self.expression = expression
     }
-    
+
     var type: NodeType {
         return .N_EXTERNAL
     }
-    
+
     var children: [Node] {
         return [self.expression]
     }

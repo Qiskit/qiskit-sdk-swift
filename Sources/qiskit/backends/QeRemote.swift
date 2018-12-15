@@ -52,7 +52,7 @@ final class QeRemote: BaseBackend {
             }
         }
     }
-    
+
     private func runInternal(_ q_job: QuantumJob, response: @escaping ((_:Result) -> Void)) -> RequestTask {
         let reqTask = RequestTask()
         do {

@@ -23,12 +23,12 @@ final class NodeUniversalUnitary: Node {
 
     let explist: Node
     let indexedid: Node
-    
+
     init(explist: Node, indexedid: Node) {
         self.explist = explist
         self.indexedid = indexedid
     }
-    
+
     var type: NodeType {
         return .N_UNIVERSALUNITARY
     }

@@ -20,17 +20,17 @@ Node for an OPENQASM reset statement.
 children[0] is a primary node (id or indexedid)
 */
 final class NodeReset: Node {
-    
+
     let indexedid: Node
- 
+
     init(indexedid: Node) {
         self.indexedid = indexedid
     }
-    
+
     var type: NodeType {
         return .N_RESET
     }
-    
+
     var children: [Node] {
         return [self.indexedid]
     }

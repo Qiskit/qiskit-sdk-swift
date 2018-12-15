@@ -19,7 +19,7 @@ import Foundation
  Composite gate component
  */
 public final class CompositeGateComponent {
-    
+
     var data: [Instruction] = []  // gate sequence defining the composite unitary
     var inverse_flag = false
 

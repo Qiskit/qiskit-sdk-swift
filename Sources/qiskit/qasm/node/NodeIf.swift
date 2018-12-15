@@ -24,17 +24,17 @@ import Foundation
  measure, reset, (and BUG: barrier, if).
  */
 final class NodeIf: Node {
-  
+
     let nodeId: Node
     let nodeNNInt: Node
     let nodeQop: Node
-    
+
     init(identifier: Node, nninteger: Node, qop: Node) {
         nodeId = identifier
         nodeNNInt = nninteger
         nodeQop = qop
     }
-    
+
     var type: NodeType {
         return .N_IF
     }
@@ -42,7 +42,7 @@ final class NodeIf: Node {
     var children: [Node] {
         return [self.nodeId,self.nodeNNInt,self.nodeQop]
     }
-    
+
     func qasm(_ prec: Int) -> String {
         var qasm: String = "if"
         qasm += " (\(self.nodeId.qasm(prec))"
