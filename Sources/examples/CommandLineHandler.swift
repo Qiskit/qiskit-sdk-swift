@@ -27,6 +27,7 @@ public final class CommandLineHandler {
         print("Options:")
         print("--help                     Shows usage")
         print("--token <token>            Specifies IBM Quantum Experience Token")
+        print("--local                    Run examples on local simulator")
         print("Input:")
         print("None                       Runs all examples")
         print("ghz|qft|rippleadd|teleport Runs specified example")
@@ -35,56 +36,67 @@ public final class CommandLineHandler {
     public func run() throws {
         guard arguments.count > 1 else {
             CommandLineHandler.printUsage()
-            throw CommandLineError.missingToken
+            throw CommandLineError.missingOption
         }
-        // The first argument is the execution path
+
+        var token: String?
+        var input = "all"
+
         let argument = arguments[1].lowercased()
-        if argument == "--help" {
+        switch argument {
+        case "--help":
             CommandLineHandler.printUsage()
             return
-        }
-        guard argument == "--token" else {
+        case "--local":
+            if arguments.count > 2 {
+                input = arguments[2].lowercased()
+            }
+        case "--token":
+            guard arguments.count > 2 else {
+                CommandLineHandler.printUsage()
+                throw CommandLineError.missingOption
+            }
+            token = arguments[2]
+            
+            if arguments.count > 3 {
+                input = arguments[3].lowercased()
+            }
+        default:
             CommandLineHandler.printUsage()
-            throw CommandLineError.invalidArgument(argument: argument)
+            throw CommandLineError.invalidOption(option: argument)
         }
-        guard arguments.count > 2 else {
-            CommandLineHandler.printUsage()
-            throw CommandLineError.missingToken
-        }
-        let token = arguments[2]
-        var option: String = "all"
-        if arguments.count > 3 {
-            option = arguments[3].lowercased()
-        }
-        switch option {
+
+        let option = CommandLineOption(apiToken: token)
+
+        switch input {
             case "ghz":
-                GHZ.ghz(token) {
+                GHZ.ghz(option) {
                     print("*** Finished ***")
                     exit(0)
                 }
             case "qft":
-                QFT.qft(token) {
+                QFT.qft(option) {
                     print("*** Finished ***")
                     exit(0)
                 }
             case "rippleadd":
-                RippleAdd.rippleAdd(token) {
+                RippleAdd.rippleAdd(option) {
                     print("*** Finished ***")
                     exit(0)
                 }
             case "teleport":
-                Teleport.teleport(token) {
+                Teleport.teleport(option) {
                     print("*** Finished ***")
                     exit(0)
                 }
             case "all":
-                GHZ.ghz(token) {
+                GHZ.ghz(option) {
                     print("*** Finished ***")
-                    QFT.qft(token) {
+                    QFT.qft(option) {
                         print("*** Finished ***")
-                        RippleAdd.rippleAdd(token) {
+                        RippleAdd.rippleAdd(option) {
                             print("*** Finished ***")
-                            Teleport.teleport(token) {
+                            Teleport.teleport(option) {
                                 print("*** Finished ***")
                                 exit(0)
                             }
@@ -93,7 +105,7 @@ public final class CommandLineHandler {
                 }
             default:
                 CommandLineHandler.printUsage()
-                throw CommandLineError.invalidOption(option: option)
+                throw CommandLineError.invalidInput(input: input)
         }
         RunLoop.main.run()
     }

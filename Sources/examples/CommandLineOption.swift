@@ -1,4 +1,4 @@
-// Copyright 2017 IBM RESEARCH. All Rights Reserved.
+// Copyright 2018 IBM RESEARCH. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,25 +16,15 @@
 import Foundation
 
 /**
- Command Line Exceptions
+ Command Line Option
  */
-public enum CommandLineError: LocalizedError, CustomStringConvertible {
+public struct CommandLineOption {
 
-    case missingOption
-    case invalidOption(option: String)
-    case invalidInput(input: String)
+    enum Backend: String {
+        case ibmqx2 = "ibmqx2"
+        case ibmqxQasmSimulator = "ibmqx_qasm_simulator"
+        case localQasmSimulator = "local_qasm_simulator"
+    }
 
-    public var errorDescription: String? {
-        return self.description
-    }
-    public var description: String {
-        switch self {
-        case .missingOption:
-            return "Missing option."
-        case .invalidOption(let option):
-            return "Invalid option \(option)."
-        case .invalidInput(let input):
-            return "Invalid input \(input)."
-        }
-    }
+    let apiToken: String?
 }

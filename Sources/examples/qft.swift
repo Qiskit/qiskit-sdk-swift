@@ -21,8 +21,6 @@ import qiskit
  */
 public final class QFT {
 
-    private static let backend: String = "ibmqx2"
-
     private static let QPS_SPECS: [String: Any] = [
         "name": "ghz",
         "circuits": [
@@ -94,9 +92,121 @@ public final class QFT {
             try circ.h(q[j])
         }
     }
-    @discardableResult
-    public class func qft(_ apiToken: String, _ responseHandler: (() -> Void)? = nil) -> RequestTask {
+
+    private class func executeRemote(quantumProgram: QuantumProgram,
+                                     circuits: [String],
+                                     threeQBitCircuit: String,
+                                     _ responseHandler: (() -> Void)?) -> RequestTask {
         var reqTask = RequestTask()
+        
+        var backend = CommandLineOption.Backend.ibmqxQasmSimulator
+        let r = quantumProgram.execute(circuits, backend: backend.rawValue, coupling_map: coupling_map, shots: 1024) { (result) in
+            do {
+                if let error = result.get_error() {
+                    print(error)
+                    responseHandler?()
+
+                    return
+                }
+
+                print(result)
+                for name in circuits {
+                    print(try result.get_ran_qasm(name))
+                }
+                for name in circuits {
+                    print(try result.get_counts(name))
+                }
+
+                backend = CommandLineOption.Backend.ibmqx2
+                let r = quantumProgram.get_backend_status(backend.rawValue) { (status, e) in
+                    if let error = e {
+                        print(error)
+                        responseHandler?()
+
+                        return
+                    }
+
+                    print("Status \(backend): \(status)")
+                    guard let available = status["available"] as? Bool else {
+                        print("backend \(backend) not available")
+                        responseHandler?()
+
+                        return
+                    }
+
+                    if !available {
+                        print("backend \(backend) not available")
+                        responseHandler?()
+
+                        return
+                    }
+
+                    let r = quantumProgram.execute([threeQBitCircuit], backend: backend.rawValue, timeout: 120, coupling_map: coupling_map, shots: 1024) { (result) in
+                        do {
+                            if let error = result.get_error() {
+                                print(error)
+                                responseHandler?()
+
+                                return
+                            }
+
+                            print(result)
+                            print(try result.get_ran_qasm(threeQBitCircuit))
+                            print(try result.get_counts(threeQBitCircuit))
+                        } catch {
+                            print(error.localizedDescription)
+                        }
+
+                        responseHandler?()
+                    }
+                    reqTask += r
+                }
+                reqTask += r
+            } catch {
+                print(error.localizedDescription)
+                responseHandler?()
+            }
+        }
+        reqTask += r
+
+        return reqTask
+    }
+
+    private class func executeLocal(quantumProgram: QuantumProgram,
+                                    circuits: [String],
+                                    _ responseHandler: (() -> Void)?) -> RequestTask {
+        var reqTask = RequestTask()
+
+        let backend = CommandLineOption.Backend.localQasmSimulator
+        let r = quantumProgram.execute(circuits, backend: backend.rawValue, coupling_map: coupling_map, shots: 1024) { (result) in
+            do {
+                if let error = result.get_error() {
+                    print(error)
+                    responseHandler?()
+
+                    return
+                }
+
+                print(result)
+                for name in circuits {
+                    print(try result.get_ran_qasm(name))
+                }
+                for name in circuits {
+                    print(try result.get_counts(name))
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+
+            responseHandler?()
+        }
+        reqTask += r
+
+        return reqTask
+    }
+
+    @discardableResult
+    public class func qft(_ option: CommandLineOption, _ responseHandler: (() -> Void)? = nil) -> RequestTask {
         do {
             print()
             print("#################################################################")
@@ -137,72 +247,23 @@ public final class QFT {
             print(qft4.qasm())
             print(qft5.qasm())
 
+            let circuits = ["qft3", "qft4", "qft5"]
+            if let token = option.apiToken {
+                //##############################################################
+                // Set up the API and execute the program.
+                //##############################################################
+                qp.set_api(token: token)
 
-            //##############################################################
-            // Set up the API and execute the program.
-            //##############################################################
-            qp.set_api(token: apiToken)
-
-            let r = qp.execute(["qft3", "qft4", "qft5"], backend:"ibmqx_qasm_simulator", coupling_map: coupling_map,shots: 1024) { (result) in
-                do {
-                    if let error = result.get_error() {
-                        print(error)
-                        responseHandler?()
-                        return
-                    }
-                    print(result)
-                    print(try result.get_ran_qasm("qft3"))
-                    print(try result.get_ran_qasm("qft4"))
-                    print(try result.get_ran_qasm("qft5"))
-                    print(try result.get_counts("qft3"))
-                    print(try result.get_counts("qft4"))
-                    print(try result.get_counts("qft5"))
-
-                    let r = qp.get_backend_status(backend) { (status,e) in
-                        if let error = e {
-                            print(error)
-                            responseHandler?()
-                            return
-                        }
-                        print("Status \(backend): \(status)")
-                        guard let available = status["available"] as? Bool else {
-                            print("backend \(backend) not available")
-                            responseHandler?()
-                            return
-                        }
-                        if !available {
-                            print("backend \(backend) not available")
-                            responseHandler?()
-                            return
-                        }
-                        let r = qp.execute(["qft3"], backend:backend,timeout:120, coupling_map: coupling_map,shots: 1024) { (result) in
-                            do {
-                                if let error = result.get_error() {
-                                    print(error)
-                                    responseHandler?()
-                                    return
-                                }
-                                print(result)
-                                print(try result.get_ran_qasm("qft3"))
-                                print(try result.get_counts("qft3"))
-                            } catch {
-                                print(error.localizedDescription)
-                            }
-                            responseHandler?()
-                        }
-                        reqTask += r
-                    }
-                    reqTask += r
-                } catch {
-                    print(error.localizedDescription)
-                    responseHandler?()
-                }
+                return executeRemote(quantumProgram: qp, circuits: circuits, threeQBitCircuit: "qft3", responseHandler)
             }
-            reqTask += r
+
+            return executeLocal(quantumProgram: qp, circuits: circuits, responseHandler)
         } catch {
             print(error.localizedDescription)
+
             responseHandler?()
         }
-        return reqTask
+
+        return RequestTask()
     }
 }
