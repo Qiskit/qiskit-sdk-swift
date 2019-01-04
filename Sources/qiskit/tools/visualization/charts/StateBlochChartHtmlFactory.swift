@@ -13,8 +13,6 @@
 // limitations under the License.
 // =============================================================================
 
-#if os(OSX) || os(iOS)
-
 import Foundation
 
 // MARK: - Main body
@@ -157,5 +155,3 @@ struct StateBlochChartHtmlFactory {
         """
     }
 }
-
-#endif

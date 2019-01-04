@@ -259,9 +259,6 @@ class DataStructureTests: XCTestCase {
         b[1, 0] = Complex(0, -1)
         XCTAssertFalse(a.isHermitian)
         XCTAssertTrue(b.isHermitian)
-
-        #if os(OSX) || os(iOS)
-
         XCTAssertThrowsError(try a.eigh())
         let (values, vectors) = try! b.eigh()
         let expectedValues = Vector(value: [1.0, 3.0, 3.0])
@@ -280,8 +277,6 @@ class DataStructureTests: XCTestCase {
                 XCTAssertEqual(oneVector[j].imag, oneExpectedVector[j].imag, accuracy: 0.00001)
             }
         }
-
-        #endif
     }
 
     func testTrace() {

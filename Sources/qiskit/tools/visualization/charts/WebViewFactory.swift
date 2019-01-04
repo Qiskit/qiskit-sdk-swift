@@ -13,52 +13,23 @@
 // limitations under the License.
 // =============================================================================
 
-#if os(OSX)
+import Foundation
 
-import Cocoa
+// MARK: - Main body
 
-#elseif os(iOS)
+struct WebViewFactory {
 
-import UIKit
+    // MARK: - Public class methods
 
-#elseif os(Linux)
+    static func makeWebView(size: VisualizationTypes.Size, html: String) -> VisualizationTypes.View {
+        #if os(OSX) || os(iOS)
 
-import CWebkitGtk_Linux
+        return AppleWebViewFactory.makeWebView(size: size, html: html)
 
-#endif
+        #elseif os(Linux)
 
-// MARK: - Public body
+        return LinuxWebViewFactory.makeWebView(html: html)
 
-public struct VisualizationTypes {
-
-    // MARK: - Types
-
-    #if os(OSX)
-
-    public typealias View = NSView
-
-    #elseif os(iOS)
-
-    public typealias View = UIView
-
-    #elseif os(Linux)
-
-    public typealias View = UnsafeMutablePointer<GtkWidget>
-
-    #endif
-
-    public struct Size {
-
-        // MARK: - Public properties
-
-        let width: Int
-        let height: Int
-
-        // MARK: - Init methods
-
-        public init(width: Int, height: Int) {
-            self.width = width
-            self.height = height
-        }
+        #endif
     }
 }

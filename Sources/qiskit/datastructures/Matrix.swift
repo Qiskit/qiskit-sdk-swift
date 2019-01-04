@@ -17,6 +17,10 @@
 
 import Accelerate
 
+#elseif os(Linux)
+
+import CLapacke_Linux
+
 #endif
 
 import Foundation
@@ -453,8 +457,6 @@ extension Matrix where T == Complex {
         return m
     }
 
-    #if os(OSX) || os(iOS)
-
     public func eigh() throws -> (Vector<Double>, [Vector<Complex>]) {
         guard isHermitian else {
             throw ArrayError.matrixIsNotHermitian
@@ -468,6 +470,9 @@ extension Matrix where T == Complex {
         var info = Int32()
 
         var w = Array(repeating: Double(), count: rowCount)
+
+        #if os(OSX) || os(iOS)
+
         var a = flattenCol().map { __CLPK_doublecomplex(r: $0.real, i: $0.imag) }
 
         // Get optimal workspace
@@ -490,18 +495,35 @@ extension Matrix where T == Complex {
 
         zheevd_(&jobz, &uplo, &n, &a, &lda, &w, &work, &lengthWork, &rWork, &lengthRWork, &iWork, &lengthIWork, &info)
 
+        #elseif os(Linux)
+
+        var a = flattenCol().value
+        let aPointer =  UnsafeMutablePointer(mutating: a)
+        let aOpaquePointer = OpaquePointer(aPointer)
+
+        info = LAPACKE_zheevd(LAPACK_COL_MAJOR, jobz, uplo, n, aOpaquePointer, lda, &w)
+
+        #endif
+
         // Validate results
         if (info > 0) {
             throw ArrayError.unableToComputeEigenValues
         }
 
+        #if os(OSX) || os(iOS)
+
         let aComplex = MultiDArray<Complex>(value: a.map { Complex($0.r, $0.i) })
+
+        #elseif os(Linux)
+
+        let aComplex = MultiDArray<Complex>(value: a)
+
+        #endif
+
         let vectorsStoredByCol = try aComplex.reshape([rowCount, rowCount]).value as! [[Complex]]
 
         return (Vector(value: w), vectorsStoredByCol.map { Vector(value: $0) })
     }
-
-    #endif
 
     public func sqrt() -> Matrix {
         var m = Matrix<T>(repeating: 0, rows: self.rowCount, cols: self.colCount)

@@ -365,6 +365,8 @@
 		FF9A9C42206ED7AE006589F2 /* StateQsphereChartSerie.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9A9C40206ED7AE006589F2 /* StateQsphereChartSerie.swift */; };
 		FF9A9C44206EF7D0006589F2 /* StateQsphereChartHtmlFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9A9C43206EF7D0006589F2 /* StateQsphereChartHtmlFactory.swift */; };
 		FF9A9C45206EF7D0006589F2 /* StateQsphereChartHtmlFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9A9C43206EF7D0006589F2 /* StateQsphereChartHtmlFactory.swift */; };
+		FFEFC6672053178D0073B544 /* WebViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEFC6662053178D0073B544 /* WebViewFactory.swift */; };
+		FFEFC6682053178D0073B544 /* WebViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEFC6662053178D0073B544 /* WebViewFactory.swift */; };
 		FFEFC66A20533CAF0073B544 /* StateBlochChartHtmlFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEFC66920533CAF0073B544 /* StateBlochChartHtmlFactory.swift */; };
 		FFEFC66B20533CAF0073B544 /* StateBlochChartHtmlFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFEFC66920533CAF0073B544 /* StateBlochChartHtmlFactory.swift */; };
 /* End PBXBuildFile section */
@@ -578,6 +580,7 @@
 		FF98E5FB204B68540026ADEC /* StateCityChartHtmlFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StateCityChartHtmlFactory.swift; path = Sources/qiskit/tools/visualization/charts/StateCityChartHtmlFactory.swift; sourceTree = SOURCE_ROOT; };
 		FF98E5FC204B68540026ADEC /* BarChartHtmlFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BarChartHtmlFactory.swift; path = Sources/qiskit/tools/visualization/charts/BarChartHtmlFactory.swift; sourceTree = SOURCE_ROOT; };
 		FF98E608204B68FB0026ADEC /* AppleWebViewFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppleWebViewFactory.swift; path = Sources/qiskit/tools/visualization/charts/platforms/AppleWebViewFactory.swift; sourceTree = SOURCE_ROOT; };
+		FF98E609204B68FC0026ADEC /* LinuxWebViewFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LinuxWebViewFactory.swift; path = Sources/qiskit/tools/visualization/charts/platforms/LinuxWebViewFactory.swift; sourceTree = SOURCE_ROOT; };
 		FF98E60F204B6E4A0026ADEC /* echarts.min.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = echarts.min.swift; path = "Sources/qiskit/tools/visualization/resources/echarts-4.0.4/echarts.min.swift"; sourceTree = SOURCE_ROOT; };
 		FF98E610204B6E4A0026ADEC /* echarts.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = echarts.min.js; path = "Sources/qiskit/tools/visualization/resources/echarts-4.0.4/echarts.min.js"; sourceTree = SOURCE_ROOT; };
 		FF98E611204B6E4A0026ADEC /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = "Sources/qiskit/tools/visualization/resources/echarts-4.0.4/LICENSE"; sourceTree = SOURCE_ROOT; };
@@ -587,6 +590,7 @@
 		FF9A9C3D206EC385006589F2 /* StateQsphereChartValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StateQsphereChartValue.swift; path = Sources/qiskit/tools/visualization/charts/StateQsphereChartValue.swift; sourceTree = SOURCE_ROOT; };
 		FF9A9C40206ED7AE006589F2 /* StateQsphereChartSerie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StateQsphereChartSerie.swift; path = Sources/qiskit/tools/visualization/charts/StateQsphereChartSerie.swift; sourceTree = SOURCE_ROOT; };
 		FF9A9C43206EF7D0006589F2 /* StateQsphereChartHtmlFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StateQsphereChartHtmlFactory.swift; path = Sources/qiskit/tools/visualization/charts/StateQsphereChartHtmlFactory.swift; sourceTree = SOURCE_ROOT; };
+		FFEFC6662053178D0073B544 /* WebViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WebViewFactory.swift; path = Sources/qiskit/tools/visualization/charts/WebViewFactory.swift; sourceTree = SOURCE_ROOT; };
 		FFEFC66920533CAF0073B544 /* StateBlochChartHtmlFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StateBlochChartHtmlFactory.swift; path = Sources/qiskit/tools/visualization/charts/StateBlochChartHtmlFactory.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -1055,6 +1059,7 @@
 				FF9A9C43206EF7D0006589F2 /* StateQsphereChartHtmlFactory.swift */,
 				FF9A9C40206ED7AE006589F2 /* StateQsphereChartSerie.swift */,
 				FF9A9C3D206EC385006589F2 /* StateQsphereChartValue.swift */,
+				FFEFC6662053178D0073B544 /* WebViewFactory.swift */,
 				FF98E607204B68770026ADEC /* platforms */,
 			);
 			path = charts;
@@ -1064,6 +1069,7 @@
 			isa = PBXGroup;
 			children = (
 				FF98E608204B68FB0026ADEC /* AppleWebViewFactory.swift */,
+				FF98E609204B68FC0026ADEC /* LinuxWebViewFactory.swift */,
 			);
 			path = platforms;
 			sourceTree = "<group>";
@@ -1308,6 +1314,7 @@
 				6932AB511FB9F90400382CF7 /* NodeGateBody.swift in Sources */,
 				6932AAEB1FB9F7D700382CF7 /* Gate.swift in Sources */,
 				6932AB601FB9F92F00382CF7 /* NodeProgram.swift in Sources */,
+				FFEFC6682053178D0073B544 /* WebViewFactory.swift in Sources */,
 				6932AAF31FB9F7EE00382CF7 /* QuantumCircuit.swift in Sources */,
 				FF98E602204B68570026ADEC /* BarChartConfiguration.swift in Sources */,
 				6932AA851FB9F6B900382CF7 /* CX.swift in Sources */,
@@ -1474,6 +1481,7 @@
 				6932AB381FB9F8CB00382CF7 /* NodeOpaque.swift in Sources */,
 				6932AA781FB9F69300382CF7 /* T.swift in Sources */,
 				6932AA631FB9F69300382CF7 /* Header.swift in Sources */,
+				FFEFC6672053178D0073B544 /* WebViewFactory.swift in Sources */,
 				6932AA671FB9F69300382CF7 /* Swap.swift in Sources */,
 				FF98E5FD204B68540026ADEC /* BarChartConfiguration.swift in Sources */,
 				6932AA711FB9F69300382CF7 /* CY.swift in Sources */,

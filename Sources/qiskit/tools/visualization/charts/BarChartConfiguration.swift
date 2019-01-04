@@ -13,8 +13,6 @@
 // limitations under the License.
 // =============================================================================
 
-#if os(OSX) || os(iOS)
-
 // MARK: - Main body
 
 struct BarChartConfiguration {
@@ -44,5 +42,3 @@ struct BarChartConfiguration {
         self.showValueOnTop = showValueOnTop
     }
 }
-
-#endif
